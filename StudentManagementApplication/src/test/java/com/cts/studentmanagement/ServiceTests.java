@@ -42,7 +42,6 @@ class ServiceTests {
 		s2.getMarks().setPhysicsScore(923);
 		
 		int compare = s.compare(s1, s2);
-//		assertEquals(0, compare);
 		assertTrue(compare > 0);
 		
 	}

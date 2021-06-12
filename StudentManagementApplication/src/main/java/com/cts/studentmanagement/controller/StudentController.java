@@ -46,14 +46,26 @@ public class StudentController {
 		Division div = divService.findByDivision(student.getDivision().getDivision());
 		student.setDivision(div);
 		
-		if(!studentService.isMarksValid(student)) 
+		log.info("------Validating user input------");
+		if(!studentService.isMarksValid(student)) {
+			log.info("----Invalid user input----");
 			throw new DataEntryError("Score is greater than 100");
+		}
 		
 		if(!studentService.isStudentAlreadyAdded(student.getName()))
 			studentService.saveStudent(student);
-		else
+		else {
+			log.info("-----Data already entered-----");
 			throw new DataEntryError("Record already entered");
+		}
 		
+		List<Student> studentList = studentService.getAllStudents();
+		model.addAttribute("students", studentList);
+		return "studentlist";
+	}
+	
+	@GetMapping("/studentList")
+	public String students(Model model) {
 		List<Student> studentList = studentService.getAllStudents();
 		model.addAttribute("students", studentList);
 		return "studentlist";
@@ -62,9 +74,6 @@ public class StudentController {
 	@GetMapping("/studentForm")
 	public String showStudentForm(Model model) {
 		log.info("--------Inside studentform controller---------");
-		
-		
-		
 		
 		Student student = new Student();
 		Marks marks = new Marks();
@@ -89,6 +98,7 @@ public class StudentController {
 		log.info("Inside rankList controller");
 		Division div = divService.findByDivision(s.getDivision().getDivision());
 		List<Student> studentList = div.getStudents();
+		log.info("----Sorting based on rank-----");
 		Collections.sort(studentList, new SortByAverage());
 		model.addAttribute("division", div);
 		model.addAttribute("sList", studentList);
@@ -107,6 +117,7 @@ public class StudentController {
 	@ExceptionHandler
 	public String handleScoreException(DataEntryError s, Model model) {
 		String errorMessage = s.getMessage();
+		log.error("DataEntryError with message : " + errorMessage);
 		model.addAttribute("errormessage", errorMessage);
 		return "error";
 	}

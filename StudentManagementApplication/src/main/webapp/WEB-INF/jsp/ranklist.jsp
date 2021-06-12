@@ -73,11 +73,11 @@
 			counter-reset: rowNumber;
 		}
 		
-		table tr:not(:first-child) {
+		table tbody tr {
 			counter-increment: rowNumber;
 		}
 		
-		table tr td:first-child::before {
+		table tbody tr td:first-child::before {
 			content: counter(rowNumber);
 			min-width: 1em;
 			margin-right: 0.5em;
