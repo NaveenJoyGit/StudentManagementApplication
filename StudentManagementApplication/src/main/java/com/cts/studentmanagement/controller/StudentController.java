@@ -60,6 +60,7 @@ public class StudentController {
 		}
 		
 		List<Student> studentList = studentService.getAllStudents();
+		Collections.sort(studentList);
 		model.addAttribute("students", studentList);
 		return "studentlist";
 	}
@@ -67,6 +68,7 @@ public class StudentController {
 	@GetMapping("/studentList")
 	public String students(Model model) {
 		List<Student> studentList = studentService.getAllStudents();
+		Collections.sort(studentList);
 		model.addAttribute("students", studentList);
 		return "studentlist";
 	}

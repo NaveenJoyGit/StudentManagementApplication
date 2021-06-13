@@ -19,7 +19,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
 @Table(name = "student")
-public class Student {
+public class Student implements Comparable<Student> {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -95,6 +95,11 @@ public class Student {
 
 	public void setDivision(Division division) {
 		this.division = division;
+	}
+
+	@Override
+	public int compareTo(Student o) {
+		return this.name.compareTo(o.name);
 	}
 
 }
